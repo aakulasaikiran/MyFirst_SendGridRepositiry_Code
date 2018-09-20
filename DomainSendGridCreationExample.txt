@@ -1,0 +1,92 @@
+package com.es.social.sendGrid.api.impl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.http.client.fluent.Request;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.es.social.sendGrid.api.CustomerDomain;
+import com.es.social.sendGrid.api.DomainOperations;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+
+@Service
+public class DomainOperatinTemplate implements DomainOperations {
+	private static final String NEWDOMAIN = "https://api.sendgrid.com/v3/whitelabel/domains";
+
+	private ObjectMapper mapper;
+
+	@Autowired
+	private RestTemplate restTemplate;
+	@Inject
+	private Environment environment;
+	CustomerDomain sg = null;
+
+	@Override
+	public CustomerDomain createDomain(String username, String password, CustomerDomain customerdomain,
+			Map<String, Object> map) {
+		getMapper();
+		String authHeader = getAuth(username, password);
+		String payload = null;
+
+		Request post = Request.Post(NEWDOMAIN).addHeader("Accept", "application/json").addHeader("Authorization",
+				authHeader);
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Accept", "application/json");
+
+			HttpEntity<String> entity = new HttpEntity<String>(headers);
+			Map<String, Object> map1 = new HashMap<>();
+			map1.put("automatic_security", false);
+			map1.put("default", true);
+			map1.put("custom_spf", true);
+			ArrayList al = new ArrayList();
+			al.add("192.168.1.1");
+			al.add("192.168.1.2");
+			map1.put("ips", al);
+			map1.put("username", customerdomain.getUsername());
+			map1.put("domain", customerdomain.getDomain());
+			map1.put("subdomain", customerdomain.getSubdomain());
+
+			try {
+				payload = mapper.writeValueAsString(map1);
+			} catch (Exception e) {
+				return null;
+			}
+			try {
+				String json = post.bodyString(payload, org.apache.http.entity.ContentType.APPLICATION_JSON).execute()
+						.returnContent().asString();
+				sg = mapper.readValue(json, CustomerDomain.class);
+				System.out.println(sg);
+				System.out.println(sg.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sg;
+
+	}
+
+	private void getMapper() {
+		mapper = new ObjectMapper();
+		mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	}
+
+	private String getAuth(String username, String password) {
+		return "Basic " + Base64.encodeBase64String(String.format("%s:%s", username, password).getBytes());
+	}
+}

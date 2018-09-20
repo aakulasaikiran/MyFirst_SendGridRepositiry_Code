@@ -1,0 +1,10 @@
+public CustomerDomain getDomain(int id);
+
+@Override
+	public CustomerDomain getDomain(int id) {
+		CustomerDomain customerDomain=null;
+		if(id!=0){
+			customerDomain = domainoperation.getDomain(username, password,id);	
+		}
+		return customerDomain;
+	}

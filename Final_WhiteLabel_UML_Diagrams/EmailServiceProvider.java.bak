@@ -1,0 +1,38 @@
+@Override
+	public String createSubuser(String customerId, Map<String, Object> map, String type) {
+		logger.info("Enter creatSubuser method");
+		try {
+			if (emailProvider.equals("sendGrid")) {
+				// if (!errorLogService.containsErrorLog(Channel.email, "Unable
+				// to Create SendGridSubUser")) {
+				// IN local and dev environmet no need to create subuser account
+				if (environment.equals("local") || environment.equals("dev")) {
+					buildProfile(customerId, map);
+				} else {
+					SubUser sendgridSubUser = subUserOperations.createSendgridSubuser(username, password, map);
+					List<SupressionGroup> resp = null;
+					if (sendgridSubUser != null) {
+						resp = groupOperations.createSupressionGroups(sendgridSubUser.getUsername(),
+								map.get("password").toString());
+						Map<String, String> m = new HashMap<String, String>();
+						if (resp != null && !resp.isEmpty())
+							for (SupressionGroup sg : resp)
+								m.put(sg.getName(), sg.getId().toString());
+						NetworkCredentials nc = addCridentials(customerId, sendgridSubUser, map, m);
+						if (type != null && type.equals("profile"))
+							createProfile(customerId, nc);
+						configureWebhook(customerId, nc);
+					}
+				}
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			errorLogService.saveErrorLog(Channel.email, customerId, e.getMessage());
+			if (e.getMessage().equals("Unable to Create SendGridSubUser"))
+				buildProfile(customerId, map);
+			logger.info("Exit creatSubuser Method");
+			return "Failure";
+		}
+		logger.info("Exit creatSubuser method");
+		return "success";
+	}

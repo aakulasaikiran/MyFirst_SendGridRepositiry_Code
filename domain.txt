@@ -1,0 +1,101 @@
+public class CustomerDomain {
+
+	/**
+	 * Represent sender UserName
+	 */
+	private String username;
+
+
+
+	/**
+	 * Represent Sender domain
+	 */
+	private String domain;
+
+
+
+
+	/**
+	 * Represent Sender subdomain
+	 */
+	private String subdomain;
+
+
+
+	/**
+	 * Represent sender emailsubdomain
+	 */
+	 private String emailsubdomain;
+
+
+
+
+	/**
+	 * Represent sender emailsubdomainurl
+	 */
+	 private String emailsubdomainurl;
+
+
+
+	/**
+	 * Represent sender linksubdomain
+	 */
+	 private String linksubdomain;
+
+
+
+	/**
+	 * Represent sender linksubdomainurl
+	 */
+	 private String linksubdomainurl;
+
+
+
+	/**
+	 * Represent default domain
+	 */
+	 private boolean default;
+
+	
+	
+
+
+	/**
+	 * Represent sender type 
+	 */
+	private String type="Email" ;
+
+
+
+
+
+	
+	/**
+	 * Represent sender verify
+	 */
+	private String verify= false;;
+
+
+
+
+	/**
+	 * Represent sender ips address
+	 */
+	private String[] ips;
+
+	
+
+
+
+     /**
+	 * Represent sender email
+	 */
+	private String email;
+
+
+
+
+	 /**
+	 * Represent sender domainId
+	 */
+	private Integer id;

@@ -1,0 +1,3 @@
+public interface EmailProviderCustomerDomainRepository extends PagingAndSortingRepository<CustomerDomain, String>, EmailProviderCustomerDomainRepositoryExt {
+
+}

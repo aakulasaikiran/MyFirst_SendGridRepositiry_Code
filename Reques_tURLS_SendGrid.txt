@@ -1,0 +1,12 @@
+call specificdomain
+http://localhost:8080/ES/rest/provider/getdomain/2234815
+
+callalldomains
+http://localhost:8080/ES/rest/provider/getAlldomains
+
+createdomain
+createdomain?username=kespl_wuwwt@mktng.info&domain=domain3&subdomain=domainsub3&defaultdomain=true&verify=false
+
+deletedomain
+http://localhost:8080/ES/rest/provider/deletedomain/2234815
+http://localhost:8080/ES/rest/provider/deletedomain/2235032

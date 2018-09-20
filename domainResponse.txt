@@ -1,0 +1,33 @@
+{"id":2235032,
+"user_id":6871426,
+"subdomain":"domainsub4",
+"domain":"domain4",
+"username":"kespl_wuwwt@mktng.info",
+"ips":["192.168.1.1","192.168.1.2"],
+"custom_spf":true,
+"default":true,
+"legacy":false,
+"automatic_security":false,
+"valid":false,
+"dns":{
+    "mail_server":{ 
+         "valid":false,
+	 "type":"mx",
+	 "host":"domainsub4.domain4",
+	 "data":"mx.sendgrid.net."
+	          },
+    "subdomain_spf":{
+          "valid":false,
+	  "type":"txt",
+	  "host":"domainsub4.domain4",
+	  "data":"v=spf1 ip4:192.168.1.1 ip4:192.168.1.2 -all"},
+	  "dkim":{
+	  "valid":false,
+	  "type":"txt",
+	  "host":"m1._domainkey.domain4",
+	  "data":"k=rsa; 
+	  t=s; 
+	  p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDrc33Y0Mwn5SeDOoZl+MSIvD/Yk4Zi0FHYkPTpRI/vaMqip2WalBytx88Lfq+mH3QChtME3GawDMYNKHGvwSaVguLm+dE26rCl7PYrwQze+8hF9890hHD7WQIckYmDvysf4klipZDR1El2XKv3WN3aw+IlDzJ7iB6dOHZ95KBk3wIDAQAB"
+	  }
+	  }
+	  }

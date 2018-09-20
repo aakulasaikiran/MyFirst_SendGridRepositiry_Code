@@ -1,0 +1,23 @@
+try {
+				payload = mapper.writeValueAsString(map1);
+			} catch (Exception e) {
+				
+				return null;
+			}
+
+
+
+
+
+
+
+
+
+
+CustomerDomain sg = null;
+			try {
+				String json = post.bodyString(payload, org.apache.http.entity.ContentType.APPLICATION_JSON)
+						.execute().returnContent().asString();
+				sg = mapper.readValue(json, CustomerDomain.class);
+				//CustomerDomain.add(sg);
+				}

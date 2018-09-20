@@ -1,0 +1,4 @@
+http://localhost:8080/ES/rest/provider/getdomain/2234815
+
+getmethod
+no header no body
